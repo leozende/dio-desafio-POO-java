@@ -1,26 +1,18 @@
 package br.com.dio.desafio.dominio;
 
-public class Course {
-    private String title;
-    private String description;
+public class Course extends Contents{
+
     private int workload;
+
+    @Override
+    public double calculateXp() {
+        return STANDARD_XP * workload;
+    } 
     
     public Course() {
-        
+
     }
 
-    public String getTitle() {
-        return title;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
     public int getWorkload() {
         return workload;
     }
@@ -29,7 +21,7 @@ public class Course {
     }
     @Override
     public String toString() {
-        return "Course [ title = " + title + ", description = " + description + ", workload = " + workload + " ]";
+        return "Course [ title = " + getTitle() + ", description = " + getDescription() + ", workload = " + workload + " ]";
     }
 
     

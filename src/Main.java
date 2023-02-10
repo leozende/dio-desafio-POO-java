@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 
+import br.com.dio.desafio.dominio.Contents;
 import br.com.dio.desafio.dominio.Course;
 import br.com.dio.desafio.dominio.Mentorship;
 
