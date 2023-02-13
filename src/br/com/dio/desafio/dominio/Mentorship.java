@@ -11,13 +11,12 @@ public class Mentorship extends Contents {
         return STANDARD_XP + 20d;
     } 
 
-    public Mentorship() {
-
-    }
+    public Mentorship() {}
 
     public LocalDate getData() {
         return data;
     }
+    
     public void setData(LocalDate data) {
         this.data = data;
     }

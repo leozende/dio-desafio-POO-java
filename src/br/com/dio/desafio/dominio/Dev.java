@@ -1,13 +1,26 @@
 package br.com.dio.desafio.dominio;
 
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 
-public class Dev {
-    private String name;
-    private Set<Contents> subscribedContent = new LinkedHashSet<>();
+public class Dev extends User{
+    private Map<Integer, String> name;
+    private Set<Contents> subscribedContent = new TreeSet<>();
     private Set<Contents> concludedContents = new LinkedHashSet<>();
+    
+    
+    @Override
+    public double bootcampList() {
+        return 0;
+    }
+    
+    public Dev(Map<Integer, String> name, Set<Contents> subscribedContent) {
+        this.name = name;
+        this.subscribedContent = subscribedContent;
+    }
 
     public void subscribeBootcamp (Bootcamp bootcamp){
         this.subscribedContent.addAll(bootcamp.getContents());
@@ -20,7 +33,7 @@ public class Dev {
             this.concludedContents.add(content.get());
             this.subscribedContent.remove(content.get());
         } else {
-            System.err.println("You are not subscribed to any content");
+            System.err.println("You are not subscribed to any content!");
         }
     }
 
@@ -29,14 +42,6 @@ public class Dev {
             .stream()
             .mapToDouble(Contents::calculateXp)
             .sum();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Set<Contents> getSubscribedContent() {

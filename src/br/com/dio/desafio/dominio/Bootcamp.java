@@ -10,10 +10,14 @@ public class Bootcamp {
     private String description;
     private final LocalDate initialDate = LocalDate.now();
     private final LocalDate finalDate = initialDate.plusDays(45);
-
     private Set<Dev> subscribedDevs = new HashSet<>();
     private Set<Contents> contents = new LinkedHashSet<>();
+    
 
+    public Bootcamp(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 
     public String getName() {
         return name;
