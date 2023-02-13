@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -21,7 +22,11 @@ import br.com.dio.desafio.dominio.User;
 public class Main {
 
     private static final String BOOTCAMP = "Bootcamp";
-    private static final String CONTENT = "Content";
+    private static final String COURSE = "Course";
+    private static final String MENTORING = "Mentoring";
+
+    private static Set<Course> courseList = new LinkedHashSet<>();
+    private static Set<Mentorship> mentorList = new LinkedHashSet<>();
     
 
     public static void main(String[] args) {
@@ -44,20 +49,7 @@ public class Main {
             }
         }
 
-        Course course1 = new Course();
-        course1.setTitle("Java Course");
-        course1.setDescription("Java course description");
-        course1.setWorkload(8);
 
-        Course course2 = new Course();
-        course2.setTitle("JavaScript Course");
-        course2.setDescription("JavaScript course description");
-        course2.setWorkload(4);
-
-        Mentorship mentorship = new Mentorship();
-        mentorship.setTitle("Java Mentoring");
-        mentorship.setDescription("Java mentoring description");
-        mentorship.setData(LocalDate.now());
 
         // System.out.println(course1);
         // System.out.println(course2);
@@ -116,11 +108,9 @@ public class Main {
         String bootcampDescription = ChangeInformation.changeDescription(scan, BOOTCAMP);
         
         //Generate key for the bootcamp.
-        Map<Integer, Bootcamp> bootcamp = new HashMap<>();
-        bootcamp.put(bootcamp.size()+1, new Bootcamp(bootcampName, bootcampDescription));
-        for (Map.Entry<Integer, Bootcamp> entry: bootcamp.entrySet()) {
-            System.out.println(entry.getKey() + " - " + entry.getValue().getName() + " - " + entry.getValue().getDescription());
-        }
+        Set<Bootcamp> bootcamp = new HashSet<>();
+        bootcamp.add(new Bootcamp(bootcampName, bootcampDescription));
+        for (Bootcamp entry: bootcamp) System.out.println(entry.getName() + " - " + entry.getDescription() + " - " + entry.getContents());
         
         loading();
         System.out.println("How much content is in the bootcamp? ");
@@ -129,17 +119,17 @@ public class Main {
         loading();
         for (int i = 1; i <= quantityContents; i++) {
             System.out.println("Register content " + i + ": ");
-            Contents content = whichContent(scan);
+            whichContent(scan);
             
             String answer = scan.nextLine();
-            String changeName = ChangeInformation.changeName(scan, CONTENT);
-            String changeDescription = ChangeInformation.changeDescription(scan, CONTENT);
+            //String changeName = ChangeInformation.changeName(scan, CONTENT);
+            //String changeDescription = ChangeInformation.changeDescription(scan, CONTENT);
 
             Set<Course> bootcampCourses = new HashSet<>();
-            bootcampCourses.add(changeName, changeDescription, 8);
+            //bootcampCourses.add(changeName, changeDescription, 8);
 
             Course course = new Course();
-            course.setTitle();
+            //course.setTitle();
             course.setDescription("Java course description");
             course.setWorkload(8);
             
@@ -153,14 +143,14 @@ public class Main {
         bootcamp.getContents().add(mentorship);*/
     }
 
-    private static Contents whichContent(Scanner scan) {
+    private static void whichContent(Scanner scan) {
         while(true) {
             System.out.println("Do you want to create or choose ready-made content? ");
             String answer = scan.nextLine();
             if(answer.equalsIgnoreCase("create")) {
-                return createContent(scan);
+                createContent(scan);
             } else if (answer.equalsIgnoreCase("choose")) {
-                return chooseContent(scan);
+                chooseContent(scan);
             } else {
                 loading();
                 System.out.println("Invalid answer, please try again...");
@@ -168,19 +158,49 @@ public class Main {
         }
     }
 
-    private static Contents createContent(Scanner scan) {
+    private static void createContent(Scanner scan) {
         while(true) {
             System.out.println("Do you want to create a new course or a mentorship?");
             String answer = scan.nextLine();
             if(answer.equalsIgnoreCase("course")) {
-                Integer workload = ChangeInformation.changeWorkload(scan);
-                return ChangeInformation.createContent(scan, CONTENT, workload);
+                createCourse(scan);
             } else if (answer.equalsIgnoreCase("mentorship")) {
-                return ChangeInformation.createContent(scan, CONTENT);
+                createMentorship(scan);
             } else {
                 loading();
                 System.out.println("Invalid answer, please try again...");
             }
+        }
+    }
+
+    private static void createCourse(Scanner scan) {
+        String name =  ChangeInformation.changeName(scan, COURSE);
+        String description =  ChangeInformation.changeDescription(scan, COURSE);
+        Integer workload = ChangeInformation.changeWorkload(scan);
+
+        Course course = new Course();
+        course.setTitle(name);
+        course.setDescription(description);
+        course.setWorkload(workload);
+        courseList.add(course);
+
+        for (Course teste : courseList) {
+            System.out.println(teste.getTitle() + " - " + teste.getDescription() + " - " + teste.getWorkload());
+        }
+    }
+
+    private static void createMentorship(Scanner scan) {
+        String name =  ChangeInformation.changeName(scan, MENTORING);
+        String description =  ChangeInformation.changeDescription(scan, MENTORING);
+
+        Mentorship mentorship = new Mentorship();
+        mentorship.setTitle(name);
+        mentorship.setDescription(description);
+        mentorship.setData(LocalDate.now());
+        mentorList.add(mentorship);
+
+        for (Mentorship teste : mentorList) {
+            System.out.println(teste.getTitle() + " - " + teste.getDescription() + " - " + teste.getData());
         }
     }
 

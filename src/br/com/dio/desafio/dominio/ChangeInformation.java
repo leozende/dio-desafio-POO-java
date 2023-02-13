@@ -1,6 +1,8 @@
 package br.com.dio.desafio.dominio;
 
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 import javax.swing.JOptionPane;
 
@@ -43,7 +45,7 @@ public class ChangeInformation {
     }
 
     public static Integer changeWorkload (Scanner scan) {
-        System.out.println("How long is the content? ");
+        System.out.println("How long is the course? ");
         Integer workload = verifyNumber(scan);
 
         while(true) {
@@ -52,7 +54,7 @@ public class ChangeInformation {
             if(confirm.equalsIgnoreCase("no")){
                 return workload;
             } else if(confirm.equalsIgnoreCase("yes")){
-                System.out.println("So please, write a new description.");
+                System.out.println("So please, write a new time.");
                 workload = verifyNumber(scan);
             } else {
                 System.out.println("Invalid answer, write again.");
@@ -74,21 +76,13 @@ public class ChangeInformation {
         return number;
     } 
 
-    public static Contents createContent(Scanner scan, String content) {
-
-        String answer = scan.nextLine();
+    public static Set<Bootcamp> createContent(Scanner scan, String content) {
         String changeName = changeName(scan, content);
         String changeDescription = changeDescription(scan, content);
+        Set<Bootcamp> contentInfo = new HashSet<>(){{
+            add(new Bootcamp(changeName, changeDescription));
+        }};
 
-        return null;
-    }
-
-    public static Contents createContent(Scanner scan, String content, int workload) {
-
-        String answer = scan.nextLine();
-        String changeName = changeName(scan, content);
-        String changeDescription = changeDescription(scan, content);
-
-        return null;
+        return contentInfo;
     }
 }
