@@ -76,13 +76,4 @@ public class ChangeInformation {
         return number;
     } 
 
-    public static Set<Bootcamp> createContent(Scanner scan, String content) {
-        String changeName = changeName(scan, content);
-        String changeDescription = changeDescription(scan, content);
-        Set<Bootcamp> contentInfo = new HashSet<>(){{
-            add(new Bootcamp(changeName, changeDescription));
-        }};
-
-        return contentInfo;
-    }
 }
