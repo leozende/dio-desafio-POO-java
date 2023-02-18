@@ -28,6 +28,7 @@ public class Main {
 
     private static Set<Course> courseList = new LinkedHashSet<>();
     private static Set<Mentorship> mentorList = new LinkedHashSet<>();
+    private static Set<Bootcamp> bootcampList = new LinkedHashSet<>();
     
 
     public static void main(String[] args) {
@@ -81,6 +82,18 @@ public class Main {
         System.out.println("Concluded Contents Two: " + devTwo.getConcludedContents());
         System.out.println("XP: " + devTwo.calculateTotalXp());*/
 
+                    /*Course course = new Course();
+            course.setTitle();
+            course.setDescription("Java course description");
+            course.setWorkload(8); */
+        
+        /*Bootcamp bootcamp = new Organizer();
+        bootcamp.setName("Bootcamp Java Developer");
+        bootcamp.setDescription("Bootcamp Java Developer description");
+        bootcamp.getContents().add(course1);
+        bootcamp.getContents().add(course2);
+        bootcamp.getContents().add(mentorship);*/
+
     }
 
     private static void organizeBootcamp(Scanner scan) {
@@ -117,6 +130,8 @@ public class Main {
         loading();
         whichContent(scan, bootcamp);
 
+        bootcampList.add(bootcamp);
+
         System.out.println(bootcamp.getName() + " - " + bootcamp.getDescription() + " - " + bootcamp.getContents());
 
             Iterator<Contents> iterator = bootcamp.getContents().iterator();
@@ -124,19 +139,6 @@ public class Main {
                 System.out.println(iterator.next());
             }
 
-
-
-            /*Course course = new Course();
-            course.setTitle();
-            course.setDescription("Java course description");
-            course.setWorkload(8); */
-        
-        /*Bootcamp bootcamp = new Organizer();
-        bootcamp.setName("Bootcamp Java Developer");
-        bootcamp.setDescription("Bootcamp Java Developer description");
-        bootcamp.getContents().add(course1);
-        bootcamp.getContents().add(course2);
-        bootcamp.getContents().add(mentorship);*/
     }
 
     private static void whichContent(Scanner scan, Bootcamp bootcamp) {
@@ -286,7 +288,111 @@ public class Main {
     }
 
     private static void modifyBootcamp(Scanner scan) {
+        loading();
+        while(true) {
+            if (courseList.isEmpty()) {
+                System.out.println("There is no Bootcamps.");
+                break;
+            }
 
+            System.out.println("Choose the Bootcamp you want to modify from those on the list: (Write leave if you want to get out)");
+            for (Bootcamp readBootcamp : bootcampList) {
+                System.out.println(readBootcamp.getName() + " - " + readBootcamp.getDescription() + " - " + readBootcamp.getInitialDate() + " - " + readBootcamp.getFinalDate() + " - " + readBootcamp.getContents());
+            }
+            String answer = scan.nextLine();
+
+            Iterator<Bootcamp> iterator = bootcampList.iterator();
+            while(iterator.hasNext()) {
+                Bootcamp bootcamp = iterator.next();
+                if(bootcamp.getName().equalsIgnoreCase(answer)){
+                    eraseOrChange(scan, bootcamp);
+                }
+                else if(answer.equalsIgnoreCase("leave"))
+                    break;
+                }
+                System.out.println("Invalid answer, please try again...");
+            }
+    }
+
+    private static void eraseOrChange(Scanner scan, Bootcamp bootcamp) {
+        Bootcamp newBootcamp;
+        while(true) {
+            System.out.println("Do you want to change or erase the bootcamp?(Write leave if you want to get out) ");
+            String answer = scan.nextLine();
+            if(answer.equalsIgnoreCase("change")) {
+                newBootcamp = bootcamp;
+                bootcampList.remove(bootcamp);
+                whatChange(scan, newBootcamp);
+                bootcampList.add(newBootcamp);
+                break;
+            } else if (answer.equalsIgnoreCase("erase")) {
+                bootcampList.remove(bootcamp);
+                break;
+            } else if (answer.equalsIgnoreCase("leave")) {
+                break;
+            } else {
+                loading();
+                System.out.println("Invalid answer, please try again...");
+            }
+        }
+    }
+
+    private static Bootcamp whatChange(Scanner scan, Bootcamp bootcamp) {
+        loading();
+        Boolean chooseOptions = true;
+
+        System.out.println("Bootcamp Informations: ");
+        System.out.println(bootcamp.getName() + " - " + bootcamp.getDescription() + " - " + bootcamp.getContents());
+
+        do{
+            System.out.println("What do you want to change? (Write leave if you want to get out)");
+            String answer = scan.nextLine().toLowerCase();
+            
+            switch (answer) {
+                case "name":
+                    loading();
+                    String newName = ChangeInformation.changeName(scan, BOOTCAMP);
+                    bootcamp.setName(newName);
+                    break;
+                case "description":
+                    loading();
+                    String newDescription = ChangeInformation.changeDescription(scan, BOOTCAMP);
+                    bootcamp.setDescription(newDescription);
+                    break;    
+                case "contents":
+                    loading();
+                    changeContent(scan, bootcamp);
+                    break;
+                case "leave":
+                    chooseOptions = false;
+                    break;
+
+                default:
+                    loading();
+                    System.out.println("Invalid Answer, try again.");
+                    System.out.println("---------------------------");
+            }
+        } while(chooseOptions);
+        return bootcamp;
+    }
+
+    private static void changeContent(Scanner scan, Bootcamp bootcamp) {
+        while(true) {
+            System.out.println("Do you want to modify, add or erase a content? (Write leave if you want to get out) ");
+            String answer = scan.nextLine();
+            if(answer.equalsIgnoreCase("add")) {
+                whichContent(scan, bootcamp);
+            } else if (answer.equalsIgnoreCase("modify")) {
+                chooseContent(scan, bootcamp);
+            } else if(answer.equalsIgnoreCase("erase")) {
+                break;
+            } else if (answer.equalsIgnoreCase("leave")) {
+                break;
+            } else {
+                loading();
+                System.out.println("Invalid answer, please try again...");
+            }
+        }
     }
 
     private static void isRegister(Scanner scan) {
