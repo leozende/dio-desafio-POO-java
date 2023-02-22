@@ -377,17 +377,134 @@ public class Main {
     }
 
     private static void changeContent(Scanner scan, Bootcamp bootcamp) {
+        System.out.println("Bootcamp Contents: ");
+        System.out.println(bootcamp.getContents());
+
         while(true) {
-            System.out.println("Do you want to modify, add or erase a content? (Write leave if you want to get out) ");
+            System.out.println("Do you want to modify, add or erase a content from the bootcamp? (Write leave if you want to get out) ");
             String answer = scan.nextLine();
             if(answer.equalsIgnoreCase("add")) {
                 whichContent(scan, bootcamp);
             } else if (answer.equalsIgnoreCase("modify")) {
-                chooseContent(scan, bootcamp);
+                modifyContent(scan, bootcamp);
             } else if(answer.equalsIgnoreCase("erase")) {
+                eraseContent(scan, bootcamp);
                 break;
             } else if (answer.equalsIgnoreCase("leave")) {
                 break;
+            } else {
+                loading();
+                System.out.println("Invalid answer, please try again...");
+            }
+        }
+    }
+
+    private static void modifyContent(Scanner scan, Bootcamp bootcamp) {
+        loading();
+        while(true) {
+            System.out.println("What content do you want to modify? A course or a mentorship? (Write leave if you want to get out)");
+            String answer = scan.nextLine();
+            if(answer.equalsIgnoreCase("course")) {
+                Course chooseCourse = chooseCourse(scan);
+                modifyCourse(scan, chooseCourse);
+                bootcamp.getContents().add(chooseCourse);
+                break;
+            } else if (answer.equalsIgnoreCase("mentorship")) {
+                Mentorship chooseMentorship = chooseMentorship(scan);
+                modifyMentor(scan, chooseMentorship);
+                bootcamp.getContents().add(chooseMentorship);
+                break;
+            } else if(answer.equalsIgnoreCase("leave")) {
+                break; 
+            } else {
+                loading();
+                System.out.println("Invalid answer, please try again...");
+            }
+        }
+    }
+
+    private static Course modifyCourse(Scanner scan, Course course) {
+        loading();
+        Boolean chooseOptions = true;
+        do{
+            System.out.println("What do you want to modify? Name, Description or Workload? (Write leave if you want to get out)");
+            String answer = scan.nextLine().toLowerCase();
+            
+            switch (answer) {
+                case "name":
+                    loading();
+                    String newName = ChangeInformation.changeName(scan, COURSE);
+                    course.setTitle(newName);
+                    break;
+                case "description":
+                    loading();
+                    String newDescription = ChangeInformation.changeDescription(scan, COURSE);
+                    course.setDescription(newDescription);
+                    break;    
+                case "workload":
+                    loading();
+                    Integer newWorkload = ChangeInformation.changeWorkload(scan);
+                    course.setWorkload(newWorkload);
+                    break;
+                case "leave":
+                    chooseOptions = false;
+                    break;
+
+                default:
+                    loading();
+                    System.out.println("Invalid Answer, try again.");
+                    System.out.println("---------------------------");
+            }
+        } while(chooseOptions);
+        return course;
+    }
+
+    private static Mentorship modifyMentor(Scanner scan, Mentorship mentor) {
+        loading();
+        Boolean chooseOptions = true;
+        do{
+            System.out.println("What do you want to modify? Name or Description? (Write leave if you want to get out)");
+            String answer = scan.nextLine().toLowerCase();
+            
+            switch (answer) {
+                case "name":
+                    loading();
+                    String newName = ChangeInformation.changeName(scan, MENTORING);
+                    mentor.setTitle(newName);
+                    break;
+                case "description":
+                    loading();
+                    String newDescription = ChangeInformation.changeDescription(scan, MENTORING);
+                    mentor.setDescription(newDescription);
+                    break;    
+                case "leave":
+                    chooseOptions = false;
+                    break;
+
+                default:
+                    loading();
+                    System.out.println("Invalid Answer, try again.");
+                    System.out.println("---------------------------");
+            }
+        } while(chooseOptions);
+        return mentor;
+    }
+
+    private static void eraseContent(Scanner scan, Bootcamp bootcamp) {
+        loading();
+        while(true) {
+            System.out.println("What content do you want to erase? A course or a mentorship? (Write leave if you want to get out)");
+            String answer = scan.nextLine();
+            if(answer.equalsIgnoreCase("course")) {
+                Course chooseCourse = chooseCourse(scan);
+                bootcamp.getContents().remove(chooseCourse);
+                break;
+            } else if (answer.equalsIgnoreCase("mentorship")) {
+                Mentorship chooseMentorship = chooseMentorship(scan);
+                bootcamp.getContents().remove(chooseMentorship);
+                break;
+            } else if(answer.equalsIgnoreCase("leave")) {
+                break; 
             } else {
                 loading();
                 System.out.println("Invalid answer, please try again...");
