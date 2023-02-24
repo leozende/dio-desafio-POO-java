@@ -103,8 +103,12 @@ public class Main {
             System.out.println("What you want to do? Create a bootcamp or modify one? (Write leave if you want to get out)");
             String answer = scan.nextLine();
             if(answer.equalsIgnoreCase("create")) {
+                loading();
+                System.out.println("---------------------------");
                 createBootcamp(scan);
             } else if (answer.equalsIgnoreCase("modify")) {
+                loading();
+                System.out.println("---------------------------");
                 modifyBootcamp(scan);
             } else if(answer.equalsIgnoreCase("leave")) {
                 break; 
@@ -116,9 +120,9 @@ public class Main {
     }
 
     private static void createBootcamp(Scanner scan) {
-        
-        loading();
         String bootcampName = ChangeInformation.changeName(scan, BOOTCAMP);
+        loading();
+        System.out.println("---------------------------");
         String bootcampDescription = ChangeInformation.changeDescription(scan, BOOTCAMP);
         
         Bootcamp bootcamp = new Bootcamp();
@@ -126,17 +130,9 @@ public class Main {
         bootcamp.setDescription(bootcampDescription);
         
         loading();
+        System.out.println("---------------------------");
         whichContent(scan, bootcamp);
-
         bootcampList.add(bootcamp);
-
-        System.out.println(bootcamp.getName() + " - " + bootcamp.getDescription() + " - " + bootcamp.getContents());
-
-            Iterator<Contents> iterator = bootcamp.getContents().iterator();
-            while(iterator.hasNext()) {
-                System.out.println(iterator.next());
-            }
-
     }
 
     private static void whichContent(Scanner scan, Bootcamp bootcamp) {
@@ -144,8 +140,12 @@ public class Main {
             System.out.println("Do you want to create or choose ready-made content? (Write leave if you want to get out) ");
             String answer = scan.nextLine();
             if(answer.equalsIgnoreCase("create")) {
+                loading();
+                System.out.println("---------------------------");
                 createContent(scan, bootcamp);
             } else if (answer.equalsIgnoreCase("choose")) {
+                loading();
+                System.out.println("---------------------------");
                 chooseContent(scan, bootcamp);
             } else if(answer.equalsIgnoreCase("leave")) {
                 break;
@@ -157,15 +157,18 @@ public class Main {
     }
 
     private static void createContent(Scanner scan, Bootcamp bootcamp) {
-        loading();
         while(true) {
             System.out.println("Do you want to create a new course or a mentorship? (Write leave if you want to get out)");
             String answer = scan.nextLine();
             if(answer.equalsIgnoreCase("course")) {
+                loading();
+                System.out.println("---------------------------");
                 Course createCourse = createCourse(scan);
                 bootcamp.getContents().add(createCourse);
                 break;
             } else if (answer.equalsIgnoreCase("mentorship")) {
+                loading();
+                System.out.println("---------------------------");
                 Mentorship createMentorship = createMentorship(scan);
                 bootcamp.getContents().add(createMentorship);
                 break;
@@ -180,7 +183,11 @@ public class Main {
 
     private static Course createCourse(Scanner scan) {
         String name =  ChangeInformation.changeName(scan, COURSE);
+        loading();
+        System.out.println("---------------------------");
         String description =  ChangeInformation.changeDescription(scan, COURSE);
+        loading();
+        System.out.println("---------------------------");
         Integer workload = ChangeInformation.changeWorkload(scan);
 
         Course course = new Course();
@@ -189,14 +196,13 @@ public class Main {
         course.setWorkload(workload);
         courseList.add(course);
 
-        for (Course readCourse : courseList) {
-            System.out.println(readCourse.getTitle() + " - " + readCourse.getDescription() + " - " + readCourse.getWorkload());
-        }
         return course;
     }
 
     private static Mentorship createMentorship(Scanner scan) {
         String name =  ChangeInformation.changeName(scan, MENTORING);
+        loading();
+        System.out.println("---------------------------");
         String description =  ChangeInformation.changeDescription(scan, MENTORING);
 
         Mentorship mentorship = new Mentorship();
@@ -205,22 +211,22 @@ public class Main {
         mentorship.setData(LocalDate.now());
         mentorList.add(mentorship);
 
-        for (Mentorship teste : mentorList) {
-            System.out.println(teste.getTitle() + " - " + teste.getDescription() + " - " + teste.getData());
-        }
         return mentorship;
     }
 
     private static void chooseContent(Scanner scan, Bootcamp bootcamp) {
-        loading();
         while(true) {
             System.out.println("What content do you want to choose? A course or a mentorship? (Write leave if you want to get out)");
             String answer = scan.nextLine();
             if(answer.equalsIgnoreCase("course")) {
+                loading();
+                System.out.println("---------------------------");
                 Course chooseCourse = chooseCourse(scan);
                 bootcamp.getContents().add(chooseCourse);
                 break;
             } else if (answer.equalsIgnoreCase("mentorship")) {
+                loading();
+                System.out.println("---------------------------");
                 Mentorship chooseMentorship = chooseMentorship(scan);
                 bootcamp.getContents().add(chooseMentorship);
                 break;
@@ -234,7 +240,6 @@ public class Main {
     }
 
     private static Course chooseCourse(Scanner scan) {
-        loading();
         while(true) {
             if (courseList.isEmpty()) {
                 System.out.println("There is no courses.");
@@ -242,9 +247,8 @@ public class Main {
             }
 
             System.out.println("Choose the course you want from those on the list: (Write leave if you want to get out)");
-            for (Course readCourse : courseList) {
-                System.out.println(readCourse.getTitle() + " - " + readCourse.getDescription() + " - " + readCourse.getWorkload());
-            }
+            courseList.forEach(t -> System.out.println("Name : " + t.getTitle() + "\nDescription : " + t.getDescription() + "\nWorkload : " + t.getWorkload()));
+
             String answer = scan.nextLine();
 
             Iterator<Course> iterator = courseList.iterator();
@@ -260,7 +264,6 @@ public class Main {
     }
 
     private static Mentorship chooseMentorship(Scanner scan) {
-        loading();
         while(true) {
             if (mentorList.isEmpty()) {
                 System.out.println("There is no mentoring.");
@@ -268,9 +271,8 @@ public class Main {
             }
 
             System.out.println("Choose the mentoring you want from those on the list: (Write leave if you want to get out)");
-            for (Mentorship readMentor : mentorList) {
-                System.out.println(readMentor.getTitle() + " - " + readMentor.getDescription() + " - " + readMentor.getData());
-            }
+            mentorList.forEach(t -> System.out.println("Name : " + t.getTitle() + "\nDescription : " + t.getDescription()));
+
             String answer = scan.nextLine();
 
             Iterator<Mentorship> iterator = mentorList.iterator();
@@ -286,7 +288,6 @@ public class Main {
     }
 
     private static void modifyBootcamp(Scanner scan) {
-        loading();
         while(true) {
             boolean confirm = false;
 
@@ -305,6 +306,7 @@ public class Main {
                         System.out.println(iterator.next());
                 }
             }
+            
             System.out.println("--------------------------------------------------------");
             String answer = scan.nextLine();
             if(answer.equalsIgnoreCase("leave"))
@@ -583,7 +585,7 @@ public class Main {
         }
     }
 
-    private static void isRegister(Scanner scan, Bootcamp bootcamp) {
+    private static void isRegister(Scanner scan) {
 
         while(true) {
             if (bootcampList.isEmpty()) {
