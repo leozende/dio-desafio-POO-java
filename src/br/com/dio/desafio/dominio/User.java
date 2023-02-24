@@ -3,7 +3,7 @@ package br.com.dio.desafio.dominio;
 import java.util.Map;
 import java.util.TreeMap;
 
-public abstract class User {
+public abstract class  {
 
     private Map<Integer, Bootcamp> bootcampList = new TreeMap<>();
 

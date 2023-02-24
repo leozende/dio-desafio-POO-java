@@ -6,19 +6,14 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class Dev extends User{
-    private Map<Integer, String> name;
+public class Dev{
+    private Map<Integer, String> info;
     private Set<Contents> subscribedContent = new TreeSet<>();
     private Set<Contents> concludedContents = new LinkedHashSet<>();
     
     
-    @Override
-    public double bootcampList() {
-        return 0;
-    }
-    
-    public Dev(Map<Integer, String> name, Set<Contents> subscribedContent) {
-        this.name = name;
+    public Dev(Map<Integer, String> info, Set<Contents> subscribedContent) {
+        this.info = info;
         this.subscribedContent = subscribedContent;
     }
 

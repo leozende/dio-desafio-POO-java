@@ -1,14 +1,9 @@
 package br.com.dio.desafio.dominio;
 
 
-public class Organizer extends User{
+public class Organizer{
     
     private String bootcampName;
-
-    @Override
-    public double bootcampList() {
-        return 0;
-    }
     
     public void createBootcamp (Bootcamp bootcamp){
 
