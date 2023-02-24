@@ -102,10 +102,8 @@ public class Main {
             String answer = scan.nextLine();
             if(answer.equalsIgnoreCase("create")) {
                 createBootcamp(scan);
-                break;
             } else if (answer.equalsIgnoreCase("modify")) {
                 modifyBootcamp(scan);
-                break;
             } else if(answer.equalsIgnoreCase("leave")) {
                 break; 
             } else {
@@ -124,8 +122,6 @@ public class Main {
         Bootcamp bootcamp = new Bootcamp();
         bootcamp.setName(bootcampName);
         bootcamp.setDescription(bootcampDescription);
-
-        System.out.println(bootcamp);
         
         loading();
         whichContent(scan, bootcamp);
@@ -290,6 +286,8 @@ public class Main {
     private static void modifyBootcamp(Scanner scan) {
         loading();
         while(true) {
+            boolean confirm = false;
+
             if (courseList.isEmpty()) {
                 System.out.println("There is no Bootcamps.");
                 break;
@@ -297,20 +295,26 @@ public class Main {
 
             System.out.println("Choose the Bootcamp you want to modify from those on the list: (Write leave if you want to get out)");
             for (Bootcamp readBootcamp : bootcampList) {
-                System.out.println(readBootcamp.getName() + " - " + readBootcamp.getDescription() + " - " + readBootcamp.getInitialDate() + " - " + readBootcamp.getFinalDate() + " - " + readBootcamp.getContents());
+                System.out.println("Name : " + readBootcamp.getName() + "\nDescription : " + readBootcamp.getDescription() + "\nInicial Date : " + readBootcamp.getInitialDate() + "\nFinal Date : " + readBootcamp.getFinalDate() + "\nContents : ");
+                Iterator<Contents> iterator = readBootcamp.getContents().iterator();
+                while(iterator.hasNext()) {
+                    System.out.println(iterator.next());
+                }
             }
             String answer = scan.nextLine();
+            if(answer.equalsIgnoreCase("leave"))
+                break;
 
             Iterator<Bootcamp> iterator = bootcampList.iterator();
             while(iterator.hasNext()) {
                 Bootcamp bootcamp = iterator.next();
                 if(bootcamp.getName().equalsIgnoreCase(answer)){
                     eraseOrChange(scan, bootcamp);
+                    confirm = true;
+                    }
                 }
-                else if(answer.equalsIgnoreCase("leave"))
-                    break;
-                }
-                System.out.println("Invalid answer, please try again...");
+                if(!confirm)
+                    System.out.println("Invalid answer, please try again...");
             }
     }
 
@@ -341,10 +345,14 @@ public class Main {
         loading();
         Boolean chooseOptions = true;
 
-        System.out.println("Bootcamp Informations: ");
-        System.out.println(bootcamp.getName() + " - " + bootcamp.getDescription() + " - " + bootcamp.getContents());
-
+        
         do{
+            System.out.println("Bootcamp Informations: ");
+            System.out.println("Name : " + bootcamp.getName() + "\nDescription : " + bootcamp.getDescription() + "\nContents : ");
+            Iterator<Contents> iterator = bootcamp.getContents().iterator();
+                while(iterator.hasNext()) {
+                    System.out.println(iterator.next());
+                }
             System.out.println("What do you want to change? (Write leave if you want to get out)");
             String answer = scan.nextLine().toLowerCase();
             
@@ -377,8 +385,11 @@ public class Main {
     }
 
     private static void changeContent(Scanner scan, Bootcamp bootcamp) {
-        System.out.println("Bootcamp Contents: ");
-        System.out.println(bootcamp.getContents());
+        System.out.println("Bootcamp Contents : ");
+        Iterator<Contents> iterator = bootcamp.getContents().iterator();
+                while(iterator.hasNext()) {
+                    System.out.println(iterator.next());
+                }
 
         while(true) {
             System.out.println("Do you want to modify, add or erase a content from the bootcamp? (Write leave if you want to get out) ");
@@ -389,7 +400,6 @@ public class Main {
                 modifyContent(scan, bootcamp);
             } else if(answer.equalsIgnoreCase("erase")) {
                 eraseContent(scan, bootcamp);
-                break;
             } else if (answer.equalsIgnoreCase("leave")) {
                 break;
             } else {
