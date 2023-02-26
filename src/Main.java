@@ -305,9 +305,9 @@ public class Main {
                     if(iterator != null)
                         System.out.println(iterator.next());
                 }
+                System.out.println("--------------------------------------------------------");
             }
             
-            System.out.println("--------------------------------------------------------");
             String answer = scan.nextLine();
             if(answer.equalsIgnoreCase("leave"))
                 break;
@@ -360,6 +360,7 @@ public class Main {
                 while(iterator.hasNext()) {
                     System.out.println(iterator.next());
                 }
+            System.out.println("--------------------------------------------------------");
             System.out.println("What do you want to change? (Write leave if you want to get out)");
             String answer = scan.nextLine().toLowerCase();
             
@@ -397,6 +398,7 @@ public class Main {
                 while(iterator.hasNext()) {
                     System.out.println(iterator.next());
                 }
+        System.out.println("--------------------------------------------------------");
 
         while(true) {
             System.out.println("Do you want to modify, add or erase a content from the bootcamp? (Write leave if you want to get out) ");
@@ -457,7 +459,7 @@ public class Main {
             String answer = scan.nextLine();
 
             Iterator<Course> iterator1 = courseList.iterator();
-            while(iterator.hasNext()) {
+            while(iterator1.hasNext()) {
                 Course course = iterator1.next();
                 if(course.getTitle().equalsIgnoreCase(answer) && bootcamp.getContents().contains(course))
                     return course;
@@ -485,7 +487,7 @@ public class Main {
             String answer = scan.nextLine();
 
             Iterator<Mentorship> iterator1 = mentorList.iterator();
-            while(iterator.hasNext()) {
+            while(iterator1.hasNext()) {
                 Mentorship mentorship = iterator1.next();
                 if(mentorship.getTitle().equalsIgnoreCase(answer) && bootcamp.getContents().contains(mentorship))
                     return mentorship;
