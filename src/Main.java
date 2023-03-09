@@ -600,11 +600,11 @@ public class Main {
         String name = scan.nextLine();
         Bootcamp bootcampRegister = bootcampRegister(scan);
 
-        newDev.registerNewDev(name, bootcampRegister);
+        newDev.registerNewDev(name, bootcampRegister);;
 
-        System.out.println();
+        System.out.println(newDev.getInfo());
 
-        System.out.println("Subscribed Contents One: " + newDev.getSubscribedContent());
+
 
         System.out.println("Subscribed Contents One: " + newDev.getSubscribedContent());
         System.out.println("Concluded Contents One: " + newDev.getConcludedContents());
@@ -637,6 +637,10 @@ public class Main {
 
         System.out.println("Registration completed, your information : ");
 
+        System.out.println("Your name is: " + name);
+        System.out.println ("Your register number is: " + newDev.getInfo().keySet());
+        System.out.println("Subscribed Contents One: " + newDev.getSubscribedContent());
+        
     }
 
     private static Bootcamp bootcampRegister(Scanner scan) {

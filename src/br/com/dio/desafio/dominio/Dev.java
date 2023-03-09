@@ -8,6 +8,9 @@ import java.util.TreeMap;
 import java.util.Map.Entry;
 
 public class Dev{
+
+    private static final Integer MAX_NUMBER_REGISTER = 9999;
+    
     private Map<Integer, Register> info = new TreeMap<>();
     private Map<Integer, Set<Contents>> subscribedContent = new LinkedHashMap<>();
     private Map<Integer, Set<Contents>> concludedContents = new LinkedHashMap<>();
@@ -17,8 +20,17 @@ public class Dev{
     }
 
     public void registerNewDev(String name, Bootcamp bootcamp){
-        int count = 0;
-        for (Entry<Integer, Register> entry : info.entrySet()) {
+        int count = 1;
+        if(this.info.isEmpty()){
+            this.info.put(count, new Register(name, bootcamp));
+            this.subscribedContent.put(count, bootcamp.getContents());
+            return;
+        } else if (this.info.containsKey(MAX_NUMBER_REGISTER)) {
+            System.out.println("Overloaded record numbers!! Please, clear the registers list");
+            return;
+        }
+
+        for (Entry<Integer, Register> entry : this.info.entrySet()) {
             count++;
             if(entry.getValue().equals(null)) {
                 this.info.put(count, new Register(name, bootcamp));
@@ -29,7 +41,7 @@ public class Dev{
 
     public void progress(Integer code) {
         
-        Optional<Contents> content = subscribedContent.get(code).stream().findFirst();
+        Optional<Contents> content = this.subscribedContent.get(code).stream().findFirst();
 
         if(content.isPresent()){
             this.concludedContents.get(code).add(content.get());
@@ -106,5 +118,12 @@ public class Dev{
             return false;
         return true;
     }
+
+    private void calculateNumber(Integer num){
+        for (int i = MAX_NUMBER_REGISTER.toString().length(); i > num ; i--) {
+            System.out.print("0");
+        }
+    }
+    
     
 }
