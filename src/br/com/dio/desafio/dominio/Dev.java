@@ -1,57 +1,72 @@
 package br.com.dio.desafio.dominio;
 
-import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 
 public class Dev{
-    private Map<Integer, String> info;
-    private Set<Contents> subscribedContent = new TreeSet<>();
-    private Set<Contents> concludedContents = new LinkedHashSet<>();
+    private Map<Integer, Register> info = new TreeMap<>();
+    private Map<Integer, Set<Contents>> subscribedContent = new LinkedHashMap<>();
+    private Map<Integer, Set<Contents>> concludedContents = new LinkedHashMap<>();
     
-    
-    public Dev(Map<Integer, String> info, Set<Contents> subscribedContent) {
-        this.info = info;
-        this.subscribedContent = subscribedContent;
+    public Dev() {
+
     }
 
-    public void subscribeBootcamp (Bootcamp bootcamp){
-        this.subscribedContent.addAll(bootcamp.getContents());
-        bootcamp.getSubscribedDevs().add(this);
+    public void registerNewDev(String name, Bootcamp bootcamp){
+        int count = 0;
+        for (Entry<Integer, Register> entry : info.entrySet()) {
+            count++;
+            if(entry.getValue().equals(null)) {
+                this.info.put(count, new Register(name, bootcamp));
+                this.subscribedContent.put(count, bootcamp.getContents());
+            }
+        }
     }
 
-    public void progress() {
-        Optional<Contents> content = this.subscribedContent.stream().findFirst();
-        if(content.isPresent()) {
-            this.concludedContents.add(content.get());
-            this.subscribedContent.remove(content.get());
+    public void progress(Integer code) {
+        
+        Optional<Contents> content = subscribedContent.get(code).stream().findFirst();
+
+        if(content.isPresent()){
+            this.concludedContents.get(code).add(content.get());
+            this.subscribedContent.get(code).remove(content.get());
         } else {
             System.err.println("You are not subscribed to any content!");
         }
     }
 
-    public double calculateTotalXp() {
-        return this.concludedContents
-            .stream()
+    public double calculateTotalXp(Integer code) {
+        return this.concludedContents.get(code)
+        .stream()
             .mapToDouble(Contents::calculateXp)
             .sum();
+        }
+        
+    public Map<Integer, Register> getInfo() {
+        return info;
     }
 
-    public Set<Contents> getSubscribedContent() {
+    public void setInfo(Map<Integer, Register> info) {
+        this.info = info;
+    }
+    
+    public Map<Integer, Set<Contents>> getSubscribedContent() {
         return subscribedContent;
     }
 
-    public void setSubscribedContent(Set<Contents> subscribedContent) {
+    public void setSubscribedContent(Map<Integer, Set<Contents>> subscribedContent) {
         this.subscribedContent = subscribedContent;
     }
 
-    public Set<Contents> getConcludedContents() {
+    public Map<Integer, Set<Contents>> getConcludedContents() {
         return concludedContents;
     }
 
-    public void setConcludedContents(Set<Contents> concludedContents) {
+    public void setConcludedContents(Map<Integer, Set<Contents>> concludedContents) {
         this.concludedContents = concludedContents;
     }
 
@@ -59,7 +74,7 @@ public class Dev{
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((info == null) ? 0 : info.hashCode());
         result = prime * result + ((subscribedContent == null) ? 0 : subscribedContent.hashCode());
         result = prime * result + ((concludedContents == null) ? 0 : concludedContents.hashCode());
         return result;
@@ -74,10 +89,10 @@ public class Dev{
         if (getClass() != obj.getClass())
             return false;
         Dev other = (Dev) obj;
-        if (name == null) {
-            if (other.name != null)
+        if (info == null) {
+            if (other.info != null)
                 return false;
-        } else if (!name.equals(other.name))
+        } else if (!info.equals(other.info))
             return false;
         if (subscribedContent == null) {
             if (other.subscribedContent != null)
@@ -91,6 +106,5 @@ public class Dev{
             return false;
         return true;
     }
-
     
 }

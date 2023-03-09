@@ -18,6 +18,7 @@ import br.com.dio.desafio.dominio.Course;
 import br.com.dio.desafio.dominio.Dev;
 import br.com.dio.desafio.dominio.Mentorship;
 import br.com.dio.desafio.dominio.Organizer;
+import br.com.dio.desafio.dominio.Register;
 
 
 public class Main {
@@ -59,30 +60,7 @@ public class Main {
         // System.out.println(course2);
         // System.out.println(mentorship);
 
-        /*Dev devOne = new Dev();
-        devOne.setName("One");
-        devOne.subscribeBootcamp(bootcamp);
-        System.out.println("Subscribed Contents One: " + devOne.getSubscribedContent());
-        devOne.progress();
-        devOne.progress();
-        System.out.println("-");
-        System.out.println("Subscribed Contents One: " + devOne.getSubscribedContent());
-        System.out.println("Concluded Contents One: " + devOne.getConcludedContents());
-        System.out.println("XP: " + devOne.calculateTotalXp());
-
-        System.out.println("---------------");
-
-        Dev devTwo = new Dev();
-        devTwo.setName("Two");
-        devTwo.subscribeBootcamp(bootcamp);
-        System.out.println("Subscribed Contents Two: " + devTwo.getSubscribedContent());
-        devTwo.progress();
-        devTwo.progress();
-        devTwo.progress();
-        System.out.println("-");
-        System.out.println("Subscribed Contents Two: " + devTwo.getSubscribedContent());
-        System.out.println("Concluded Contents Two: " + devTwo.getConcludedContents());
-        System.out.println("XP: " + devTwo.calculateTotalXp());*/
+        
 
                     /*Course course = new Course();
             course.setTitle();
@@ -221,13 +199,13 @@ public class Main {
             if(answer.equalsIgnoreCase("course")) {
                 loading();
                 System.out.println("---------------------------");
-                Course chooseCourse = chooseCourse(scan);
+                Course chooseCourse = chooseCourse(scan, bootcamp);
                 bootcamp.getContents().add(chooseCourse);
                 break;
             } else if (answer.equalsIgnoreCase("mentorship")) {
                 loading();
                 System.out.println("---------------------------");
-                Mentorship chooseMentorship = chooseMentorship(scan);
+                Mentorship chooseMentorship = chooseMentorship(scan, bootcamp);
                 bootcamp.getContents().add(chooseMentorship);
                 break;
             } else if(answer.equalsIgnoreCase("leave")) {
@@ -239,7 +217,7 @@ public class Main {
         }
     }
 
-    private static Course chooseCourse(Scanner scan) {
+    private static Course chooseCourse(Scanner scan, Bootcamp bootcamp) {
         while(true) {
             if (courseList.isEmpty()) {
                 System.out.println("There is no courses.");
@@ -247,7 +225,7 @@ public class Main {
             }
 
             System.out.println("Choose the course you want from those on the list: (Write leave if you want to get out)");
-            courseList.forEach(t -> System.out.println("Name : " + t.getTitle() + "\nDescription : " + t.getDescription() + "\nWorkload : " + t.getWorkload()));
+            courseList.forEach(t -> System.out.println("Name : " + t.getTitle() + "\nDescription : " + t.getDescription() + "\nWorkload : " + t.getWorkload() + "\n--------------------------------------------------------"));
 
             String answer = scan.nextLine();
 
@@ -263,7 +241,7 @@ public class Main {
             }
     }
 
-    private static Mentorship chooseMentorship(Scanner scan) {
+    private static Mentorship chooseMentorship(Scanner scan, Bootcamp bootcamp) {
         while(true) {
             if (mentorList.isEmpty()) {
                 System.out.println("There is no mentoring.");
@@ -271,7 +249,7 @@ public class Main {
             }
 
             System.out.println("Choose the mentoring you want from those on the list: (Write leave if you want to get out)");
-            mentorList.forEach(t -> System.out.println("Name : " + t.getTitle() + "\nDescription : " + t.getDescription()));
+            mentorList.forEach(t -> System.out.println("Name : " + t.getTitle() + "\nDescription : " + t.getDescription() + "\n--------------------------------------------------------"));
 
             String answer = scan.nextLine();
 
@@ -302,8 +280,7 @@ public class Main {
                 System.out.println("Name : " + readBootcamp.getName() + "\nDescription : " + readBootcamp.getDescription() + "\nInicial Date : " + readBootcamp.getInitialDate() + "\nFinal Date : " + readBootcamp.getFinalDate() + "\nContents : ");
                 Iterator<Contents> iterator = readBootcamp.getContents().iterator();
                 while(iterator.hasNext()) {
-                    if(iterator != null)
-                        System.out.println(iterator.next());
+                    System.out.println(iterator.next());
                 }
                 System.out.println("--------------------------------------------------------");
             }
@@ -352,7 +329,6 @@ public class Main {
         loading();
         Boolean chooseOptions = true;
 
-        
         do{
             System.out.println("Bootcamp Informations: ");
             System.out.println("Name : " + bootcamp.getName() + "\nDescription : " + bootcamp.getDescription() + "\nContents : ");
@@ -618,12 +594,46 @@ public class Main {
 
     private static void firstRegister(Scanner scan) {
         System.out.println("You need to register!");
+        Dev newDev = new Dev();
 
         System.out.print("Write your name: ");
         String name = scan.nextLine();
-        
-        Dev newDev = new Dev(null, null);
-        bootcampRegister(scan);
+        Bootcamp bootcampRegister = bootcampRegister(scan);
+
+        newDev.registerNewDev(name, bootcampRegister);
+
+        System.out.println();
+
+        System.out.println("Subscribed Contents One: " + newDev.getSubscribedContent());
+
+        System.out.println("Subscribed Contents One: " + newDev.getSubscribedContent());
+        System.out.println("Concluded Contents One: " + newDev.getConcludedContents());
+
+
+
+        /*Dev devOne = new Dev();
+        devOne.setName("One");
+        devOne.subscribeBootcamp(bootcamp);
+        System.out.println("Subscribed Contents One: " + devOne.getSubscribedContent());
+        devOne.progress();
+        devOne.progress();
+        System.out.println("-");
+
+        System.out.println("XP: " + devOne.calculateTotalXp());
+
+        System.out.println("---------------");
+
+        Dev devTwo = new Dev();
+        devTwo.setName("Two");
+        devTwo.subscribeBootcamp(bootcamp);
+        System.out.println("Subscribed Contents Two: " + devTwo.getSubscribedContent());
+        devTwo.progress();
+        devTwo.progress();
+        devTwo.progress();
+        System.out.println("-");
+        System.out.println("Subscribed Contents Two: " + devTwo.getSubscribedContent());
+        System.out.println("Concluded Contents Two: " + devTwo.getConcludedContents());
+        System.out.println("XP: " + devTwo.calculateTotalXp());*/
 
         System.out.println("Registration completed, your information : ");
 
@@ -638,16 +648,16 @@ public class Main {
                 System.out.println("Name : " + bootcamp.getName() + "\nDescription : " + bootcamp.getDescription() + "\nContents : ");
                 Iterator<Contents> iterator1 = bootcamp.getContents().iterator();
                     while(iterator1.hasNext()) {
+                        System.out.println("---------------------------");
                         System.out.println(iterator1.next());
                     }
-                System.out.println("---------------------------");
             }
             System.out.println("---------------------------");
 
             String answer = scan.nextLine();
 
             Iterator<Bootcamp> iterator2 = bootcampList.iterator();
-            while(iterator.hasNext()) {
+            while(iterator2.hasNext()) {
                 Bootcamp bootcamp = iterator2.next();
                 if(bootcamp.getName().equalsIgnoreCase(answer))
                     return bootcamp;

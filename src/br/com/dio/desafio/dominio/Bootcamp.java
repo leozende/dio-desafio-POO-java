@@ -1,7 +1,6 @@
 package br.com.dio.desafio.dominio;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -10,7 +9,6 @@ public class Bootcamp {
     private String description;
     private final LocalDate initialDate = LocalDate.now();
     private final LocalDate finalDate = initialDate.plusDays(45);
-    private Set<Dev> subscribedDevs = new HashSet<>();
     private Set<Contents> contents = new LinkedHashSet<>();
     
 
@@ -35,12 +33,6 @@ public class Bootcamp {
     public LocalDate getFinalDate() {
         return finalDate;
     }
-    public Set<Dev> getSubscribedDevs() {
-        return subscribedDevs;
-    }
-    public void setSubscribedDevs(Set<Dev> subscribedDevs) {
-        this.subscribedDevs = subscribedDevs;
-    }
     public Set<Contents> getContents() {
         return contents;
     }
@@ -56,7 +48,6 @@ public class Bootcamp {
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((initialDate == null) ? 0 : initialDate.hashCode());
         result = prime * result + ((finalDate == null) ? 0 : finalDate.hashCode());
-        result = prime * result + ((subscribedDevs == null) ? 0 : subscribedDevs.hashCode());
         result = prime * result + ((contents == null) ? 0 : contents.hashCode());
         return result;
     }
@@ -88,11 +79,6 @@ public class Bootcamp {
             if (other.finalDate != null)
                 return false;
         } else if (!finalDate.equals(other.finalDate))
-            return false;
-        if (subscribedDevs == null) {
-            if (other.subscribedDevs != null)
-                return false;
-        } else if (!subscribedDevs.equals(other.subscribedDevs))
             return false;
         if (contents == null) {
             if (other.contents != null)
